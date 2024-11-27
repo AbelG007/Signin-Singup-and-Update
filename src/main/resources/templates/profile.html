@@ -233,18 +233,18 @@
 
 <script>
     // Function to get query parameters
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
 
-    // Check for update status
-    const updateStatus = getQueryParam('updateStatus');
-    if (updateStatus === 'success') {
-        alert('Profile updated successfully!');
-    } else if (updateStatus === 'error') {
-        alert('Error updating profile. Please try again.');
-    }
+// Check for update status
+const updateStatus = getQueryParam('updateStatus');
+if (updateStatus === 'success') {
+    alert('Profile updated successfully!');
+} else if (updateStatus === 'error') {
+    alert('Error updating profile. Please try again.');
+}
 </script>
 
 </body>

@@ -88,9 +88,10 @@ public class AppController {
     public String updatedUserProfile(@ModelAttribute User updatedUser, RedirectAttributes redirectAttributes) {
         try {
             User user = userService.updateUserProfile(updatedUser);
-            redirectAttributes.addFlashAttribute("updateStatus","success");
+            redirectAttributes.addFlashAttribute("successMessage", "Profile updated successfully!");
             return "redirect:/profile?id=" + user.getId(); // Redirect back to profile page
         } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error updating profile. Please try again.");
             return "redirect:/profile?id=" + updatedUser.getId(); // Redirect back to profile with error
         }
     }
