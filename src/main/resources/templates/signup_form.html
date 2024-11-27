@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to the external CSS file -->
+</head>
+<body>
+<div class="container">
+    <h1>User Registration</h1>
+
+    <form th:action="@{/process_register}" method="post" th:object="${user}">
+
+        <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" class="form-control" th:field="*{username}" required minlength="8" maxlength="10"/>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" th:field="*{password}" required minlength="8" maxlength="10"/>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" class="form-control" th:field="*{name}" required minlength="1" maxlength="20"/>
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" class="form-control" th:field="*{email}" required minlength="10" maxlength="64"/>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="number" id="phone" class="form-control" th:field="*{number}" maxlength="12"/>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" class="form-control" th:field="*{address}" maxlength="250"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" class="form-control" th:field="*{dob}" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Gender</label>
+            <div class="gender-options">
+                <div th:each="gender : ${genders}" class="form-check">
+                    <input type="radio" th:field="*{gender}" th:value="${gender}" class="form-check-input" th:id="${gender}" required/>
+                    <label th:for="${gender}" class="form-check-label" th:text="${gender.displayName}"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="accept">
+                <input type="checkbox" id="accept" name="accept" required/>
+                I ensure that details are true about me
+            </label>
+        </div>
+
+        <button type="submit" class="btn">Sign Up</button>
+    </form>
+</div>
+</body>
+</html>

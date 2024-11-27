@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Profile</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Update Profile</h1>
+
+    <!-- Success Alert -->
+    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Error Alert -->
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form action="/update" method="post">
+        <!-- Hidden User ID -->
+        <input type="hidden" name="id" th:value="${user.id}">
+
+        <!-- Username -->
+        <div class="form-group">
+            <label>Username:</label>
+            <input type="text" name="username" th:value="${user.username}" readonly>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" name="password" th:value="${user.password}">
+        </div>
+
+        <!-- Name -->
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" name="name" th:value="${user.name}">
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="text" name="email" th:value="${user.email}">
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group">
+            <label>Phone Number:</label>
+            <input type="number" name="number" th:value="${user.number}">
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+            <label>Address:</label>
+            <textarea name="address" th:text="${user.address}"></textarea>
+        </div>
+
+        <!-- Gender Radio Buttons -->
+        <div class="form-group">
+            <label>Gender:</label>
+            <div>
+                <input type="radio" name="gender" value="MALE" th:checked="${user.gender == T(com.DEMO1.demo.common.enumeration.Gender).MALE}"> Male
+                <input type="radio" name="gender" value="FEMALE" th:checked="${user.gender == T(com.DEMO1.demo.common.enumeration.Gender).FEMALE}"> Female
+                <input type="radio" name="gender" value="OTHER" th:checked="${user.gender == T(com.DEMO1.demo.common.enumeration.Gender).OTHER}"> Other
+            </div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="form-group">
+            <label>Date of Birth:</label>
+            <input type="date" name="dob" th:value="${user.dob}">
+        </div>
+
+        <div class="button-container">
+            <button type="submit" class="btn btn-primary">Update</button>
+
+            <!-- Delete Account Form -->
+            <form action="/delete" method="post">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete your account?')">Delete Account</button>
+            </form>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Function to get query parameters
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Check for update status
+    const updateStatus = getQueryParam('updateStatus');
+    if (updateStatus === 'success') {
+        alert('Profile updated successfully!');
+    } else if (updateStatus === 'error') {
+        alert('Error updating profile. Please try again.');
+    }
+</script>
+
+</body>
+</html>
