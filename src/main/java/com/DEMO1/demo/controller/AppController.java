@@ -18,6 +18,7 @@ import java.util.Optional;
 @Controller
 public class AppController {
 
+
     @Autowired
     private UserRepository userRepository;
 
@@ -87,21 +88,24 @@ public class AppController {
     public String updatedUserProfile(@ModelAttribute User updatedUser, RedirectAttributes redirectAttributes) {
         try {
             User user = userService.updateUserProfile(updatedUser);
-            return "redirect:/profile?id=" + user.getId()+ "&updateStatus=success"; // Redirect back to profile page
+            redirectAttributes.addFlashAttribute("updateStatus","success");
+            return "redirect:/profile?id=" + user.getId(); // Redirect back to profile page
         } catch (Exception e) {
-            return "redirect:/profile?id=" + updatedUser.getId()+"&updateStatus=error"; // Redirect back to profile with error
+            return "redirect:/profile?id=" + updatedUser.getId(); // Redirect back to profile with error
         }
     }
 
     @PostMapping("/delete")
-    public String deleteUserAccount(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+    public String deleteUser(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             userService.deleteUserById(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Account deleted successfully.");
-            return "redirect:/login"; // Redirect to login page after deletion
+            redirectAttributes.addFlashAttribute("successMessage", "Deleted Successfully");
+            return "redirect:/";  // Redirect to home page or login page after deletion
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/profile?id=" + id; // Redirect back to profile with error message
+            throw new RuntimeException(e);
         }
     }
+
 }
+
+

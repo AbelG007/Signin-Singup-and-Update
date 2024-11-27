@@ -3,7 +3,10 @@ package com.DEMO1.demo.service;
 import com.DEMO1.demo.model.User;
 import com.DEMO1.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -38,13 +41,17 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
-    public void deleteUserById(Long id) throws Exception {
-        if (!userRepository.existsById(id)) {
-            throw new Exception("User not found");
+    @Transactional
+    public void deleteUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            System.out.println("Deleting user with ID: " + id);  // Add log to confirm deletion
+            userRepository.delete(user.get());
+        } else {
+            throw new IllegalArgumentException("User not found");
         }
-        userRepository.deleteById(id);
     }
+
 }
 
 
